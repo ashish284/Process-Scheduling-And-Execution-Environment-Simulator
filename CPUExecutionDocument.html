@@ -1,0 +1,115 @@
+
+
+
+
+
+<html>
+    <head>
+        <title>Custom CPU Execution Documentation</title>
+        <style>
+            body {
+                font-family: "Times New Roman", Times, serif;
+                margin: 5px;
+            }
+            h4, h2{
+                background-color: aqua;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Custom CPU Execution Documentation</h2>
+        <div id="intro">
+            <p>Class Name: <b>CustomCPUExecution</b></p>
+            <p>Description: This class should provide the implementation for simulation of CPU.</p>
+        </div>
+        <br/>
+        <div id="interface">	
+
+
+            public interface <b>CPUInterface</b> {<br/><br/>
+            &emsp;&emsp;&emsp;		void <b>setReadyQueue</b>(LinkedList<Process> readyQueue);<br/><br/>
+                &emsp;&emsp;&emsp;		void <b>setWaitQueue</b>(LinkedList<Process> waitQueue);<br/><br/>
+                    &emsp;&emsp;&emsp;		void <b>setProcess</b>(Process process);<br/><br/>
+                    }
+
+                    </div>
+                    <div id="explanation">
+                        <h4>Module Details</h4>
+                        <ul>
+                            <li>
+                                <p>	This class should implement <b>CPUInterface</b> and extend <b>Thread</b> class and override the above methods and run method.</p>
+                            </li>
+                            <br/>
+                            <li>
+                                <p>The method <b>setReadyQueue</b> sets the ready queue to be used for scheduling.</p>
+                                <br/>
+                                <b>Parameters:</b> 
+                                <ul style="list-style-type:square">
+                                    <li>Linked List of Process class(readyQueue)</li>
+                                </ul>
+                                <b>Return Type:</b>
+                                <ul style="list-style-type:square">
+                                    <li>void</li>
+                                </ul>
+                            </li>
+
+                            <br/>
+                            <li>
+                                <p>The method <b>setWaitQueue</b> sets the wait queue to be used for scheduling.</p>
+                                <br/>
+                                <b>Parameters:</b>
+                                <ul style="list-style-type:square">
+                                    <li>Linked List of Process class(waitQueue)</li>
+                                </ul>
+                                <b>Return Type:</b>
+                                <ul style="list-style-type:square">
+                                    <li>void</li>
+                                </ul>
+                            </li>
+                            <br/>
+                            <li>
+                                <p>The method <b>setProcess</b> sets the process to be executed on that cpu.</p>
+                                <br/>
+                                <b>Parameters:</b> 
+                                <ul style="list-style-type:square">
+                                    <li>An instance of Process class</li>
+                                </ul>
+                                <b>Return Type:</b>
+                                <ul style="list-style-type:square">
+                                    <li>void</li>
+                                </ul>
+                            </li>
+                            <br/>
+                            <li>
+                                <p>The method <b>run</b> simulates the CPU execution.</p>
+                                <br/>
+                                <b>Parameters:</b> 
+                                <ul style="list-style-type:square">
+                                    <li>none</li>
+                                </ul>
+                                <b>Return Type:</b>
+                                <ul style="list-style-type:square">
+                                    <li>void</li>
+                                </ul>
+                                <b>Details:</b>
+                                <ul>
+                                    <li>
+                                        It checks whether the current burst is for CPU or IO. 
+                                    </li><br/>
+
+                                    <li>
+                                        If the current burst is for CPU, then it sleeps the thread for the specified burst time. 
+                                    </li><br/>
+
+                                    <li>
+                                        If the current burst is for IO, then it creates an IO execution thread and sends the process for IO execution. 
+                                    </li><br/>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    </body>
+                    </html>
+

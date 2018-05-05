@@ -1,0 +1,135 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package major_code;
+
+import java.util.LinkedList;
+
+/**
+ *
+ * @author Anji
+ */
+public class RoundRobinCPU extends Thread {
+
+    private Process process;
+    private long startTime;
+    int timeslice = 5;
+    private int core;
+    private int clockReference;
+    private int numberOfTimeslice;
+    private LinkedList<Process> waitQueue;
+    private LinkedList<Process> readyQueue;
+    private long startTimeOfTimeslice;
+    long t1, t2;
+static long ref;
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setStartTimeOfTimeslice(long startTimeOfTimeslice) {
+        this.startTimeOfTimeslice = startTimeOfTimeslice;
+    }
+
+    public void setProcess(Process process) {
+        this.process = process;
+    }
+
+    public void setWaitQueue(LinkedList<Process> waitQueue) {
+        this.waitQueue = waitQueue;
+    }
+
+    public void setReadyQueue(LinkedList<Process> readyQueue) {
+        this.readyQueue = readyQueue;
+    }
+
+    public void setClockReference(int clockReference) {
+        this.clockReference = clockReference;
+    }
+
+    public void setNumberOfTimeslice(int numberOfTimeslice) {
+        this.numberOfTimeslice = numberOfTimeslice;
+    }
+
+    long getStartTimeOfTimeslice() {
+        return startTimeOfTimeslice;
+    }
+    
+   
+
+    @Override
+    public void run() {
+        int index, i, check;
+        if (process.bursts[process.currentBurst] != 0) {
+            if (process.bursts[process.currentBurst] <= timeslice) {
+                try {
+                    Thread.sleep(process.bursts[process.currentBurst]);
+                } catch (InterruptedException e) {
+                    System.out.println(e);
+                }
+                process.bursts[process.currentBurst] = 0;
+                process.currentBurst++;
+                t1 = System.currentTimeMillis();
+                if (process.currentBurst != process.burstCount) {
+                    waitQueue.addLast(process);
+                    process.ioQueueWait[(process.currentBurst - 1) / 2] = System.currentTimeMillis();
+                    FCFSIOExecution ioExecution = new FCFSIOExecution();
+                    ioExecution.setProcess(process);
+                    ioExecution.setWaitQueue(waitQueue);
+                    ioExecution.start();
+                    try {
+                        ioExecution.join();
+                    } catch (InterruptedException ex) {
+                        System.out.println(ex);
+                    }
+                    process.currentBurst++;
+                }
+                t2 = System.currentTimeMillis();
+//                System.out.println("IO *************************"+(t2-t1));
+            } else {
+                try {
+                    Thread.sleep(timeslice);
+                } catch (InterruptedException e) {
+                    System.out.println(e);
+                }
+                process.bursts[process.currentBurst] -= timeslice;
+            }
+            if (process.currentBurst != process.burstCount) {
+                check = clockReference + numberOfTimeslice * timeslice;
+                if (readyQueue.isEmpty()) {
+                    Process.addToQueue(readyQueue, process);
+                } //  readyQueue.add(process);
+                else {
+                    for (i = 0; i < readyQueue.size(); i++) {
+                        if (readyQueue.get(i).arrivalTime > check) {
+                            break;
+                        }
+                    }
+                    if (i < readyQueue.size()) {
+                        Process.addToQueue(readyQueue, process, i);
+                    } //    readyQueue.add(i,process);
+                    else {
+                        Process.addToQueue(readyQueue, process);
+                    }
+                    //   readyQueue.addLast(process);   
+                }
+            }
+            if (process.burstCount == process.currentBurst && process.bursts[process.currentBurst - 1] == 0) {
+                process.endTime = System.currentTimeMillis() - startTime + process.startTime;
+                process.finish = true;
+            }
+            int sum = 0;
+            for (i = 1; i < process.currentBurst; i = i + 2) {
+                sum += process.bursts[i];
+            }
+            process.endTimeCpu = System.currentTimeMillis() - startTime + process.startTime - sum;
+//            System.out.println("***** end *** "+process.endTimeCpu+"   "+process.pid);
+            process.timeOfTimesliceOver =System.currentTimeMillis()-sum;
+            //      System.out.println("timeslice over for process "+process.pid+" is "+process.timeOfTimesliceOver);
+            process.currentIOTime=t2-t1;
+            process.timesliceOver = true;
+
+        }
+    }
+}

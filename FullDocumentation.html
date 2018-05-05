@@ -1,0 +1,268 @@
+
+
+
+
+
+<html>
+    <head>
+        <title>Documentation</title>
+        <style>
+            body {
+                font-family: "Times New Roman", Times, serif;
+                 margin: 5px;
+            }
+            h4{
+                background-color: aqua;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Documentation</h1>
+        <h3>Java Classes</h3>
+        <div class="java_class">
+            <h4><i>class</i> <b>Process</b></h4>
+            <p>This class contains all the information about the processes needed for scheduling and the methods used for manipulating them.</p>
+            <pre>
+            
+                <b>INSTANCE VARIABLES</b>
+                
+                final int MAX_BURST = 100;
+                int pid;
+                long arrivalTime;
+                long startTime;
+                int ioPercent;
+                long endTime;
+                long waitingTime;
+                int currentBurst;
+                int newCpuBurst;
+                long remainingBurst;
+                int ioTotalDuration;
+                int burstCount;
+                long cpuBurst;
+                long ioQueueWait[] = new long[MAX_BURST/2];
+                long bursts[] = new long[MAX_BURST];
+                int priority;
+                boolean finish;
+                boolean timesliceOver;
+                long timeOfTimesliceOver;
+                int currentQueue;
+                int contextSwitch;
+                int multithreading;
+                long currentIOTime;
+                long endTimeCpu;
+
+                <b>Methods</b>
+
+                public int <b>getPid</b>()
+                    Returns the PID
+
+                public static synchronized void <b>addToQueue</b>(LinkedList<Process> queue, Process p)
+                    Synchronously adds a process to the given queue
+                    
+                public static synchronized void <b>removeFromQueue</b>(LinkedList<Process> queue, Process p)
+                    Synchronously removes a process from the given queue
+                     
+                public long <b>getArrivalTime</b>()
+                    Returns the arrival time of the process
+                    
+                public long <b>getStartTime</b>()
+                    Returns the start time of the process
+                    
+                public long <b>getWaitingTime</b>()
+                    Returns the cpu wait time of the process
+                    
+                public long <b>getNewCPUBurst</b>()
+                    Returns the new cpu burst according to the CPU clock speed
+                    
+                public long <b>getEndTime</b>()
+                    Returns the end time of the process
+                    
+                public int <b>getioPercent</b>()
+                    Returns the IO percent of the process
+                    
+                public int <b>getIoTotalDuration</b>()
+                    Returns the total IO duration of the process
+                    
+                public int <b>getContextSwitches</b>()
+                    Returns the context switches of the process
+                    
+                public long <b>getTotalIoWait</b>()
+                    Return the IO wait of the process
+                    
+                public int <b>getRandomNumberInRange</b>(int min, int max) 
+                    Returns a random number in the range given in the arguments
+                    
+                public int <b>compareTo</b>(Process st)
+                    Used to sort according to pid
+                    
+                public void <b>IOCalculate</b>(float clockSpeed)
+                    Calculate the instant of IO and duration of IO
+            
+            </pre>
+        </div>
+        <div class="java_class">
+            <h4><i>class</i> <b>Processor</b></h4>
+            <p>This class contains all the information about the processor needed for scheduling</p>
+            <pre>
+            
+                <b>INSTANCE VARIABLES</b>
+                
+                private static int core;
+                private static float clock; 
+
+                <b>Methods</b>
+
+                public static void <b>setNumberOfCores</b>(int cores)
+                    Reads the input and sets the number of cores of processor
+                
+                public static void <b>setClockSpeed</b>(float clockspeed)
+                    Reads the input and sets the clock speed
+
+                public static int <b>getNumberOfCores</b>()
+                    Returns the number of cores of the CPU
+                
+                public static float <b>getClockSpeed</b>()
+                    Returns the clock speed of the CPU
+            
+            </pre>
+            </div>
+            <div class="java_class">
+            <h4><i>class</i> <b>InputModule</b></h4>
+            <p>This class takes the input and creates the process node and the ready queue.</p>
+            <pre>
+            
+                <b>Methods</b>
+    
+                Process <b>createProcessNode</b>(String line[])
+                    This creates the process node from the input
+                LinkedList<Process> <b>createReadyQueue</b>()
+                    This process creates the ready queue
+
+            </pre>
+            </div>
+            <div class="java_class">
+            <h4><i>class</i> <b>OutputModule</b></h4>
+                <p>This class displays the table containing all the information of the processes executed</p>
+            <pre>
+
+                <b>Methods</b>
+                
+                void <b>displayTable</b>(LinkedList<Process> processes, int policy)
+                    This method creates a table that displays the following for each scheduling policy executed
+                    <ul style="padding-left:80px">
+                        <li>PID</li>
+                        <li>ARRIVAL TIME</li>
+                        <li>START TIME</li>
+                        <li>CPU EXECUTION TIME</li>
+                        <li>IO EXECUTION TIME</li>
+                        <li>EXIT TIME</li>
+                        <li>RESPONSE TIME</li>
+                        <li>TURN AROUND TIME</li>
+                        <li>READY QUEUE WAIT TIME</li>
+                        <li>IO WAIT TIME</li>
+                        <li>CONTEXT SWITCHES</li>
+                    </ul>
+            </pre>
+            </div>
+            
+            <div class="java_class">
+            <h4><i>class</i> <b>OutputGanttChart</b></h4>
+            <p>This class creates the gantt chart for each timeslice as per the execution of processes</p>
+            <pre>
+               
+                <b>Constructor</b>
+    
+                public <b>OutputGanttChart</b>(LinkedList[] processOrder, long endTime)
+                    This constructor sets a process order list which is a list of a class which contains-
+                    <ul style="padding-left:80px">
+                        <li>Process pid</li>
+                        <li>Process start time for that timeslice</li>
+                        <li>Process end time for that timeslice</li>
+                    </ul>
+                    Using this process list it generates the gantt chart.
+                
+            </pre>
+            </div>
+            <div class="java_class">
+            <h4><i>class</i> <b>Main</b></h4>
+            <p>This class calls all the classes in order, to start the scheduling. 
+               It first calls the input module method to set the attributes of processes from the input and make the ready queue. 
+               Until all the processes are completed and added to processList it calls execution function of Execution class. 
+               In the end, it calls the outputGanttChart method and outputModule method.</p>
+            <pre>
+
+                <b>Methods</b>
+                public void <b>execSched</b>(InputModule inputModule, OutputModule out) 
+                    It first gets the ready queue using input module. 
+                    Then it calls the scheduler code till all processes are completed. 
+                    It then calls the output gantt chart and output module to show the gantt chart and the table.
+            </pre>
+            </div>
+            <div class="java_class">
+            <h4><i>class</i> <b>Execution</b></h4>
+            <p>This class should provide the implementation for the custom scheduling policy.</p>
+            <pre>
+
+                <b>Methods</b>
+                void <b>setReadyQueue</b>(LinkedList<Process> readyQueue)
+                    It sets the ready queue to be used for scheduling
+                    
+                void <b>setWaitQueue</b>(LinkedList<Process> waitQueue)
+                    It sets the wait queue to be used for scheduling
+                    
+                void <b>cpuExecution</b>()
+                    It contains the code according to the scheduling policy. That assign each cpu a process from the ready queue
+                LinkedList<Process> <b>getProcessList</b>()
+                     It returns a list of executed processes in the order of their execution
+                     
+                LinkedList<ProcessOrder>[] <b>getProcessOrder</b>()
+                    It returns an array of list of processes going to each cpu in the order of their exection. 
+                    Each array has the list of processes which executes on that particular cpu.
+            
+            </pre>
+            </div>
+            <div class="java_class">
+            <h4><i>class</i> <b>CPUExecution</b></h4>
+            <p>This class should provide the implementation for simulation of CPU.</p>
+            <pre>
+            
+    		void <b>setReadyQueue</b>(LinkedList<Process> readyQueue)
+                    It sets the ready queue to be used for scheduling
+
+                void <b>setWaitQueue</b>(LinkedList<Process> waitQueue)
+                    It sets the wait queue to be used for scheduling
+
+                void <b>setProcess</b>(Process process)
+                    It sets the process to be executed on that cpu
+                 
+                <b>run</b>()
+                    It simulates the CPU execution
+                    <ul style="padding-left:80px">Details:
+                    <li>It checks whether the current burst is for CPU or IO.</li><li>If the current burst is for CPU, then it sleeps the thread for the specified burst time.</li><li>If the current burst is for IO, then it creates an IO execution thread and sends the process for IO execution.</li></ul>
+            
+            </pre>
+            </div>
+            <div class="java_class">
+            <h4><i>class</i> <b>IOExecution</b></h4>
+             <p>This class should provide the implementation for simulation of IO.</p>
+            <pre>
+            
+    		void <b>setReadyQueue</b>(LinkedList<Process> readyQueue)
+                    It sets the ready queue to be used for scheduling
+
+                void <b>setWaitQueue</b>(LinkedList<Process> waitQueue)
+                    It sets the wait queue to be used for scheduling
+
+                void <b>setProcess</b>(Process process)
+                    It sets the process to be executed on that cpu
+                <b>run</b>()
+                    It simulates the IO execution of the process.
+                    <ul style="padding-left:80px">
+                    Details:<br/>
+                    <li>It calculates wait time in the wait queue of that IO.</li><li>It simulates the IO by sleeping the thread by for the specified IOBurst.</li></ul>
+
+            </pre>
+            </div>
+            </body>
+            </html>
+

@@ -1,0 +1,52 @@
+
+package major_code;
+import java.util.Iterator;
+import java.util.LinkedList;
+
+class CustomExecution
+{ 
+        private LinkedList<Process> processList = new LinkedList<Process>();
+        private LinkedList<Process> readyQueue;
+        private LinkedList<Process> waitQueue;
+        private Process cpu[];
+        private int cores;
+        private LinkedList<ProcessOrder> processOrder[] = new LinkedList[Processor.getNumberOfCores()];
+        private ProcessOrder po;
+        
+             
+        public CustomExecution(Process cpu[], int cores){
+                   this.cpu = cpu;
+                   this.cores = cores;
+        }
+        
+        public void setReadyQueue(LinkedList<Process> readyQueue)
+        {
+                this.readyQueue=readyQueue;
+        }
+        
+        
+        public void setWaitQueue(LinkedList<Process> waitQueue)
+        {
+                this.waitQueue=waitQueue;
+        }
+        
+        public LinkedList<ProcessOrder>[] getProcessOrder(){
+            return processOrder;
+        }
+        
+        public LinkedList<Process> getProcessList()
+        {
+                return processList;
+        }
+        
+        
+	void cpuExecution()
+    {
+		for(int i=0;i<cores;i++) //For each cpu check for process to be executed
+        {       
+        	// Enter your code here
+        	
+        }
+    }
+}
+

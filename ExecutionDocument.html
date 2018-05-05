@@ -1,0 +1,123 @@
+<html>
+    <head>
+        <title>Custom Execution Documentation</title>
+        <style>
+            body {
+                font-family: "Times New Roman", Times, serif;
+                margin: 5px;
+            }
+            h4, h2{
+                background-color: aqua;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Custom Execution Documentation</h2>
+        <div id="intro">
+            <p>Class Name: <b>CustomExecution</b></p>
+            <p>Description: This class should provide the implementation for the custom scheduling policy.</p>
+        </div>
+        <br/>
+        <div id="interface">	
+
+
+            public interface <b>ExecutionInterface</b> {<br/><br/>
+            &emsp;&emsp;&emsp;		void <b>setReadyQueue</b>(LinkedList<Process> readyQueue);<br/><br/>
+                &emsp;&emsp;&emsp;		void <b>setWaitQueue</b>(LinkedList<Process> waitQueue);<br/><br/>
+                    &emsp;&emsp;&emsp;		void <b>cpuExecution</b>();<br/><br/>
+                    &emsp;&emsp;&emsp;   	LinkedList<Process> <b>getProcessList</b>();<br/><br/>
+                        &emsp;&emsp;&emsp; 		LinkedList<ProcessOrder>[] <b>getProcessOrder</b>();<br/><br/>
+                            }
+
+                            </div>
+                            <div id="explanation">
+                                <h4>Module Details</h4>
+                                <ul>
+                                    <li>
+                                        <p>	This class should implement <b>ExecutionInterface</b> and override the above methods.</p>
+                                    </li>
+                                    <br/>
+                                    <li>
+                                        <p>The method <b>setReadyQueue</b> sets the ready queue to be used for scheduling.</p>
+                                        <br/>
+                                        <b>Parameters:</b> 
+                                        <ul style="list-style-type:square">
+                                            <li>Linked List of Process class(readyQueue)</li>
+                                        </ul>
+                                        <b>Return Type:</b>
+                                        <ul style="list-style-type:square">
+                                            <li>void</li>
+                                        </ul>
+                                    </li>
+
+                                    <br/>
+                                    <li>
+                                        <p>The method <b>setWaitQueue</b> sets the wait queue to be used for scheduling.</p>
+                                        <br/>
+                                        <b>Parameters:</b> 
+                                        <ul style="list-style-type:square">
+                                            <li>Linked List of Process class(waitQueue)</li>
+                                        </ul>
+                                        <b>Return Type:</b>
+                                        <ul style="list-style-type:square">
+                                            <li>void</li>
+                                        </ul>
+                                    </li>
+
+                                    <br/>
+                                    <li>
+                                        <p>The method <b>getProcessList</b> returns a list of executed processes in the order of their execution.</p>
+                                        <br/>
+                                        <b>Parameters:</b> 
+                                        <ul style="list-style-type:square">
+                                            <li>none</li>
+                                        </ul>
+                                        <b>Return Type:</b>
+                                        <ul style="list-style-type:square">
+                                            <li>Linked List of Process class(processList)</li>
+                                        </ul>
+                                    </li>
+                                    <br/>
+                                    <li>
+                                        <p>The method <b>getProcessOrder</b> returns an array of list of processes going to each cpu in the order of their exection. Each array has the list of processes which executes on that particular cpu.</p>
+                                        <br/>
+                                        <b>Parameters:</b> 
+                                        <ul style="list-style-type:square">
+                                            <li>none</li>
+                                        </ul>
+                                        <b>Return Type:</b>
+                                        <ul style="list-style-type:square">
+                                            <li>Array of Linked List of Process Order class(processList)</li>
+                                        </ul>
+                                    </li>
+                                    <br/>
+                                    <li>
+                                        <p>The method <b>cpuExecution</b> contains the code according to the scheduling policy. That assign each cpu a process from the ready queue</p>
+                                        <br/>
+                                        <b>Parameters:</b> 
+                                        <ul style="list-style-type:square">
+                                            <li>none</li>
+                                        </ul>
+                                        <b>Return Type:</b>
+                                        <ul style="list-style-type:square">
+                                            <li>none</li>
+                                        </ul>
+                                        <b>Details:</b>
+                                        <ul style="list-style-type:square">
+                                            <li>A loop is run for each core. For each index the scheduling policy selects a process from the ready queue and assigns it to that cpu. </li><br/>
+                                            <li>It creates a thread of class <b>CustomCPUExecution</b>. It sets the process, ready queue and wait queue for that thread.
+                                            </li><br/>
+                                            <li>It calculates the start time and end time for each process. 
+                                            </li><br/>
+                                            <li>According the order of execution of process, the processes are added to the process order list. 
+                                            </li><br/>
+                                            <li>When execution of a process completes, it is then added into the process list. 
+                                            </li><br/>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            </body>
+                            </html>
+
